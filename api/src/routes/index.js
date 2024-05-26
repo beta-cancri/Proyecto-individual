@@ -7,9 +7,9 @@ const videogameRouter = require("./videogameRouter");
 
 const mainRouter = Router();
 
-mainRouter.use("/users", videogameRouter);
+mainRouter.use("/videogame", videogameRouter);
 
-mainRouter.use("/posts", genreRouter);
+mainRouter.use("/genre", genreRouter);
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
