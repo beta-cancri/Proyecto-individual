@@ -1,9 +1,7 @@
 const {Router} = require("express");
-
+const {createPostHandler} = require("../Handlers/postsHandler");
 const postRouter = Router();
 
-postRouter.get("/users", (req, res) => {
-    res.status(200).send("Create user");
-});
+postRouter.post("/", createPostHandler)
 
 module.exports = postRouter;

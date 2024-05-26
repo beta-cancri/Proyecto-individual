@@ -1,13 +1,13 @@
 const {Router} = require("express");
 
+const {getDetailHandler, getUsersHandler, createUserHandler} = require("../Handlers/usersHandlers")
+
 const usersRouter = Router();
 
-usersRouter.get("/", (req, res) => {
-    res.status(200).send("All the users are here");
-});
+usersRouter.get("/", getUsersHandler);
 
-usersRouter.get("/:id", (req, res) => {
-    res.status(200).send("Users details");
-});
+usersRouter.get("/:id", getDetailHandler);
+
+usersRouter.post("/", createUserHandler)
 
 module.exports = usersRouter;
