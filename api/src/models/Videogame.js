@@ -11,6 +11,7 @@ module.exports = (sequelize) => {
     image: { type: DataTypes.STRING },
     released: { type: DataTypes.DATE },
     rating: { type: DataTypes.FLOAT },
+    created: { type: DataTypes.BOOLEAN, defaultValue: true },
   });
 
 };

@@ -1,11 +1,36 @@
-const { createVideogameDB } = require("../controllers/videogamesControllers");
+const { createVideogameDB, getVideogameById, getAllVideogames, getVideogameByName} = require("../controllers/videogamesControllers");
 
-const getVideogameHandler = (req, res) => {
-    res.status(200).send("All the users are here");
+const getVideogameHandler = async (req, res) => {
+    const {name} = req.query;
+
+    try {
+        if(name){
+            const videogameByName = await getVideogameByName(name)
+            res.status(200).json(videogameByName);
+        }else{
+            const response = await getAllVideogames()
+            res.status(200).json(response);
+        }
+
+        
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
 };
 
-const getDetailHandler = (req, res) => {
-    res.status(200).send("Users details");
+const getDetailHandler = async (req, res) => {
+    const {id} = req.params;
+
+    const source = isNaN(id) ? "bdd" : "api";
+
+    try {
+        const response = await getVideogameById(id, source);
+
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(400).json({error: error.message});
+    }
+    
 };
 
 const createVideogameHandler = async (req, res) => {
@@ -18,17 +43,11 @@ const createVideogameHandler = async (req, res) => {
     catch (error){
         res.status(400).json({error:error.message});
     }
-
-    // res.status(200).send("Videogame created");   gives errror, should try to put it somewhere
 }
 
-const getNameHandler = (req, res) => {
-    res.status(200).send("User created");
-}
 
 module.exports = {
     getDetailHandler,
     getVideogameHandler,
     createVideogameHandler,
-    getNameHandler,
 };

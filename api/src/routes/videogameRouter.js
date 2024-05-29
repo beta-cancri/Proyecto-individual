@@ -10,6 +10,4 @@ videogameRouter.get("/:id", getDetailHandler);
 
 videogameRouter.post("/", createVideogameHandler);
 
-videogameRouter.get("/name", getNameHandler);
-
 module.exports = videogameRouter;
