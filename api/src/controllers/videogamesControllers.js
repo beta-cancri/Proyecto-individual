@@ -6,7 +6,7 @@ const URL = `https://api.rawg.io/api/games`;
 
 const { DB_KEY } = process.env;
 
-
+const infoCleaner = require("../utils/index");
 
 
 const createVideogameDB = async (name, description, platforms, image, released, rating) => {
@@ -23,19 +23,7 @@ const getVideogameById = async (id, source) => {
 
 };
 
-const infoCleaner = (array) => {
-    return array.map((element) => {
-        return {
-            name: element.name,
-            description: element.description,
-            platforms: element.platforms,
-            image: element.image,
-            released: element.released,
-            rating: element.rating,
-            created: false,
-        }
-    });
-};
+
 
 const getAllVideogames = async () => {
     
