@@ -12,5 +12,13 @@ const infoCleaner = (array) => {
     });
 };
 
+const infoCleanerGenre = (array) => {
+    return array.map((element) => {
+        return {
+            name: element.name,
+        }
+    });
+};
 
-module.exports = infoCleaner;
+
+module.exports = infoCleaner, infoCleanerGenre;

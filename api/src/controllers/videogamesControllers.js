@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const { Videogame } = require("../db");
+const { Videogame, Genre } = require("../db");
 
 const URL = `https://api.rawg.io/api/games`;
 
@@ -9,16 +9,25 @@ const { DB_KEY } = process.env;
 const infoCleaner = require("../utils/index");
 
 
-const createVideogameDB = async (name, description, platforms, image, released, rating) => {
+const createVideogameDB = async (name, description, platforms, image, released, rating, genreIds) => {
 
-    return await Videogame.create({ name, description, platforms, image, released, rating });
+    const game = await Videogame.create({ name, description, platforms, image, released, rating});
+
+    await game.setGenres(genreIds);
+
+    return game;
 
 };
 
 const getVideogameById = async (id, source) => {
 
     const videogame = source === "api" ? (await axios.get(`${URL}/${id}?key=${DB_KEY}`)).data :
-        await Videogame.findByPk(id);
+        await Videogame.findByPk(id, {
+            include:{
+                model: Genre,
+                attributes: ["name"],
+            },
+        });
     return videogame;
 
 };

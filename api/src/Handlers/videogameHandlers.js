@@ -34,10 +34,10 @@ const getDetailHandler = async (req, res) => {
 };
 
 const createVideogameHandler = async (req, res) => {
-    const {name, description, platforms, image, released, rating} = req.body;
+    const {name, description, platforms, image, released, rating, genreIds} = req.body;
 
     try{
-        const response = await createVideogameDB(name, description, platforms, image, released, rating);
+        const response = await createVideogameDB(name, description, platforms, image, released, rating, genreIds);
         res.status(200).json(response);
     }
     catch (error){
