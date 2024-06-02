@@ -16,12 +16,16 @@ function rootReducer(state = initialState, action) {
                 videogamesCopy: action.payload.results || []
             };
             case GET_BY_NAME:
-                return{
-                    ...state,
-                    allVideogames: action.payload,
-                };
-        default:
-            return state;
+      const searchString = action.payload.toLowerCase();
+      const filteredVideogames = state.videogamesCopy.filter(videogame =>
+        videogame.name.toLowerCase().includes(searchString)
+      );
+      return {
+        ...state,
+        allVideogames: filteredVideogames,
+      };
+    default:
+      return state;
     }
 }
 

@@ -17,7 +17,6 @@ const [searchString, setSearchString] = useState("");
 
 
 function handleChange(e){
-  e.preventDefault();
   setSearchString(e.target.value)
 }
 

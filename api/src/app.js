@@ -8,7 +8,12 @@ const mainRouter = require('./routes/index.js');
 require('./db.js');
 
 const app = express();
+const cors = require('cors');
 
+
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 app.name = 'API';
 
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));

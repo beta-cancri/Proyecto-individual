@@ -25,10 +25,10 @@ export function getVideogames() {
 export function getByName(name) {
     return async function(dispatch) {
         try {
-            const response = await axios.get(`http://localhost:3001/videogame/?name=${name}`);
+            const response = await axios.get(`http://localhost:3001/videogame/?name=${String(name)}`);
             dispatch({
                 type: "GET_BY_NAME",
-                payload: response.data
+                payload: String(name) // payload is always a string
             });
         } catch (error) {
             console.error("Error searching the game:", error);
