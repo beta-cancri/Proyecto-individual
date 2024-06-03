@@ -1,18 +1,18 @@
-.card-container{
+.card-container {
+    background-size: cover;
+    background-position: center;
+    width: 200px;
+    height: 300px;
+    color: black;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    background-color: aqua;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 25px;
-    cursor: pointer;
-    -moz-osx-font-smoothing: grayscale;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-    transition: transform 0.25s ease-out;
-}
-
-
-.card-container:hover{
+    justify-content: space-between;
+  }
+    
+  .card-container:hover {
     transform: scale(1.05);
-}
+  }
+  

@@ -1,0 +1,13 @@
+.detail-container {
+  background-size: cover;
+  background-position: center;
+  width: 100%; /* Adjust width as needed */
+  height: 100%; /* Adjust height as needed */
+  color: black;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
