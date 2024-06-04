@@ -1,4 +1,3 @@
-// reducer.js
 import { GET_VIDEOGAMES, GET_BY_NAME, GET_DETAIL } from '../actions';
 
 const initialState = {
@@ -17,21 +16,21 @@ function rootReducer(state = initialState, action) {
         videogamesCopy: action.payload.results || []
       };
     case GET_BY_NAME:
-      const searchString = action.payload.toLowerCase();
-      const filteredVideogames = state.videogamesCopy.filter(videogame =>
-        videogame.name.toLowerCase().includes(searchString)
-      );
-      return {
-        ...state,
-        allVideogames: filteredVideogames,
-      };
-      case GET_DETAIL:
-        console.log("Payload received in GET_DETAIL:", action.payload);
+      if (Array.isArray(action.payload)) {
         return {
           ...state,
-          currentVideogame: action.payload 
+          allVideogames: action.payload,
         };
-      
+      } else {
+        
+        return state;
+      }
+    case GET_DETAIL:
+      console.log("Payload received in GET_DETAIL:", action.payload);
+      return {
+        ...state,
+        currentVideogame: action.payload 
+      };
     default:
       return state;
   }

@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const URL = "https://api.rawg.io/api/games";
 const DB_KEY = "b0af212d619846639e0461611a3010b7";
 
@@ -11,7 +10,7 @@ export const GET_DETAIL = "GET_DETAIL";
 export function getVideogames() {
     return async function(dispatch) {
         try {
-            const response = await axios.get(`${URL}?key=${DB_KEY}&page_size=100`);
+            const response = await axios.get(`${URL}?key=${DB_KEY}`);
             console.log("Fetched videogames:", response.data); // Log the response data to verify its structure
             dispatch({
                 type: "GET_VIDEOGAMES",
@@ -26,10 +25,10 @@ export function getVideogames() {
 export function getByName(name) {
     return async function(dispatch) {
         try {
-            const response = await axios.get(`http://localhost:3001/videogame/?name=${String(name)}&page_size=15`);
+            const response = await axios.get(`http://localhost:3001/videogame?name=${encodeURIComponent(name)}`);
             dispatch({
                 type: "GET_BY_NAME",
-                payload: String(name) // payload is always a string
+                payload: response.data // Update payload to contain the filtered videogames data
             });
         } catch (error) {
             console.error("Error searching the game:", error);
@@ -50,5 +49,4 @@ export function getDetail(id) {
         console.error("Error fetching videogame details:", error);
       }
     };
-  }
-  
+}
