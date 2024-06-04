@@ -1,13 +1,27 @@
 .detail-container {
   background-size: cover;
   background-position: center;
-  width: 100%; /* Adjust width as needed */
-  height: 100%; /* Adjust height as needed */
+  background-attachment: fixed;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
   color: black;
   padding: 20px;
-  margin: 10px;
-  border-radius: 10px;
+  margin: 0; /* Remove margin for full-screen effect */
+  border-radius: 0; /* Remove border radius for full-screen effect */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden; /* Ensure content doesn't overflow */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.detail-container p {
+  text-align: justify; /* Justify text */
+  overflow-wrap: break-word; /* Break long words to prevent overflow */
+  margin: 0 0 10px 0; /* Add some margin between paragraphs */
+}
+
+.detail-container h2 {
+  text-align: center; /* Center-align the heading */
+  margin-bottom: 20px; /* Add margin below the heading */
 }

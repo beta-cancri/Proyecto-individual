@@ -1,27 +1,39 @@
 const axios = require('axios');
-
-const {Genre} = require("../db");
-
+const { Genre } = require("../db");
 const URL = `https://api.rawg.io/api/genres`;
-
 const { DB_KEY } = process.env;
-
 const infoCleanerGenre = require("../utils/index");
 
 const getAllGenres = async () => {
-    
-    const genreDB = await Genre.findAll();
+    try {
+        // Retrieve genres from the database
+        const genreDB = await Genre.findAll();
 
-    const response = await axios.get(`${URL}?key=${DB_KEY}`);
+        // Retrieve genres from the external API
+        const response = await axios.get(`${URL}?key=${DB_KEY}`);
+        const genreApi = response.data.results || [];
+        
+        // Clean and process the API data
+        const infoApi = infoCleanerGenre(genreApi);
 
-    const genreApi = response.data.results || [];
+        // Check for duplicate genre names in the database
+        const existingGenres = await Genre.findAll({ attributes: ['name'] });
+        const existingGenreNames = existingGenres.map(genre => genre.name);
+        
+        // Filter out duplicate genre names from the API data
+        const uniqueGenres = infoApi.filter(genre => !existingGenreNames.includes(genre.name));
 
-    const infoApi = infoCleanerGenre(genreApi);
+        // Bulk create the unique genres
+        const savedGenres = await Genre.bulkCreate(uniqueGenres);
 
-    const savedGenres = await Genre.bulkCreate(infoApi, { ignoreDuplicates: true });
         console.log('Saved Genres:', savedGenres);
 
-    return [...genreDB, ...infoApi];
+        // Return the merged array of genres
+        return [...genreDB, ...savedGenres];
+    } catch (error) {
+        console.error('Error retrieving genres:', error);
+        throw error; // Re-throw the error for handling by the caller
+    }
 };
 
-module.exports = {getAllGenres};
+module.exports = { getAllGenres };
