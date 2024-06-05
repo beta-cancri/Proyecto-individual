@@ -33,15 +33,31 @@ const getAllVideogames = async () => {
 const getVideogameByName = async (name) => {
     const regex = new RegExp(name, "i");
 
+    
     const response = await axios.get(`${URL}?search=${name}&key=${DB_KEY}`);
     const videogameApi = response.data.results || [];
     const infoApi = infoCleaner(videogameApi);
 
+    
     const videogameFiltered = infoApi.filter(videogame => regex.test(videogame.name));
 
-    const videogameDb = await Videogame.findAll({ where: { name: { [Op.iLike]: `%${name}%` } } });
+    
+    const videogameDb = await Videogame.findAll({
+        where: { name: { [Op.iLike]: `%${name}%` } },
+        include: { model: Genre, attributes: ["name"] }
+    });
 
-    return [...videogameFiltered, ...videogameDb];
+    
+    const formattedDbResults = videogameDb.map(game => ({
+        id: game.id,
+        name: game.name,
+        genres: game.genres.map(genre => genre.name).join(', '),
+        background_image: game.image
+    }));
+
+    
+    return [...videogameFiltered, ...formattedDbResults];
 };
+
 
 module.exports = { createVideogameDB, getVideogameById, getAllVideogames, getVideogameByName };

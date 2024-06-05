@@ -11,7 +11,7 @@ export function getVideogames() {
     return async function(dispatch) {
         try {
             const response = await axios.get(`${URL}?key=${DB_KEY}`);
-            console.log("Fetched videogames:", response.data); // Log the response data to verify its structure
+            console.log("Fetched videogames:", response.data); 
             dispatch({
                 type: "GET_VIDEOGAMES",
                 payload: response.data
@@ -23,18 +23,21 @@ export function getVideogames() {
 }
 
 export function getByName(name) {
-    return async function(dispatch) {
-        try {
-            const response = await axios.get(`http://localhost:3001/videogame?name=${encodeURIComponent(name)}`);
-            dispatch({
-                type: "GET_BY_NAME",
-                payload: response.data // Update payload to contain the filtered videogames data
-            });
-        } catch (error) {
-            console.error("Error searching the game:", error);
-        }
+    return async function (dispatch) {
+      try {
+        const response = await axios.get(`http://localhost:3001/videogame?name=${encodeURIComponent(name)}`);
+        console.log("Fetched videogames by name:", response.data); 
+        dispatch({
+          type: "GET_BY_NAME",
+          payload: response.data,
+        });
+      } catch (error) {
+        console.error("Error searching the game:", error);
+      }
     };
-}
+  }
+  
+  
 
 export function getDetail(id) {
     return async function(dispatch) {

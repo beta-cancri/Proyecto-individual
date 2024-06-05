@@ -31,7 +31,7 @@ function Create() {
 
   const history = useHistory();
 
-  // Function to fetch genres from the backend
+  
   const fetchGenres = async () => {
     try {
       const response = await axios.get('http://localhost:3001/genre/');
@@ -136,14 +136,14 @@ function Create() {
         const dataToSend = {
           name: input.name,
           description: input.description,
-          platforms: input.platforms.split(',').map(platform => platform.trim()), // Ensure platforms is an array
+          platforms: input.platforms.split(',').map(platform => platform.trim()), 
           image: input.image,
           released: input.released,
-          rating: parseFloat(input.rating), // Ensure rating is a number
+          rating: parseFloat(input.rating), 
           genreIds: genreIds,
         };
 
-        console.log('Data to send:', dataToSend); // Log the data to be sent
+        console.log('Data to send:', dataToSend); 
 
         const response = await axios.post('http://localhost:3001/videogame', dataToSend);
         console.log('Videogame created successfully:', response.data);
@@ -157,7 +157,7 @@ function Create() {
           genres: [],
         });
         setSubmitError("");
-        history.push('/videogames');
+        history.push('/home');
       } catch (error) {
         console.error('Error creating videogame:', error);
         setSubmitError("An error occurred while creating the videogame.");

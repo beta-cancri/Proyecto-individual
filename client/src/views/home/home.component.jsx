@@ -28,15 +28,17 @@ function Home() {
   }, [allVideogames]);
 
   function handleCardClick(id) {
-    dispatch(getDetail(id)); // Dispatch getDetail action with the id of the selected videogame
+    dispatch(getDetail(id));
   }
 
   const filteredVideogames = allVideogames.map(game => ({
-    id: game.id,
-    name: game.name,
-    genres: game.genres ? game.genres.map(genre => genre.name).join(', ') : "No genres available",
-    image: game.background_image
+    id: game.id || "N/A",
+    name: game.name || "No name available",
+    genres: Array.isArray(game.genres) ? game.genres.map(genre => genre.name).join(', ') : "No genres available",
+    image: game.background_image || "https://static.javatpoint.com/fullformpages/images/ina-full-form4.png", 
   }));
+
+  console.log("Filtered videogames:", filteredVideogames); 
 
   return (
     <div className="home">
