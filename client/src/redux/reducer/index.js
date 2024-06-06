@@ -12,8 +12,8 @@ function rootReducer(state = initialState, action) {
     case GET_VIDEOGAMES:
       return {
         ...state,
-        allVideogames: action.payload.results || [],
-        videogamesCopy: action.payload.results || []
+        allVideogames: action.payload,
+        videogamesCopy: action.payload,
       };
     case GET_BY_NAME:
       if (Array.isArray(action.payload)) {
@@ -22,14 +22,13 @@ function rootReducer(state = initialState, action) {
           allVideogames: action.payload,
         };
       } else {
-        
         return state;
       }
     case GET_DETAIL:
       console.log("Payload received in GET_DETAIL:", action.payload);
       return {
         ...state,
-        currentVideogame: action.payload 
+        currentVideogame: action.payload,
       };
     default:
       return state;
