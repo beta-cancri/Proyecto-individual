@@ -4,6 +4,7 @@ const initialState = {
   allVideogames: [],
   videogamesCopy: [],
   genres: [],
+  platforms: [],
   currentVideogame: {},
 };
 
@@ -12,8 +13,10 @@ function rootReducer(state = initialState, action) {
     case GET_VIDEOGAMES:
       return {
         ...state,
-        allVideogames: action.payload,
-        videogamesCopy: action.payload,
+        allVideogames: action.payload.results || [],
+        videogamesCopy: action.payload.results || [],
+        genres: action.payload.genres || [],
+        platforms: action.payload.platforms || [],
       };
     case GET_BY_NAME:
       if (Array.isArray(action.payload)) {
@@ -25,7 +28,7 @@ function rootReducer(state = initialState, action) {
         return state;
       }
     case GET_DETAIL:
-      console.log("Payload received in GET_DETAIL:", action.payload);
+      console.log('Payload received in GET_DETAIL:', action.payload);
       return {
         ...state,
         currentVideogame: action.payload,
