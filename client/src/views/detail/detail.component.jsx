@@ -9,8 +9,6 @@ function Detail() {
   const dispatch = useDispatch();
   const videogame = useSelector((state) => state.currentVideogame);
 
-  console.log("Rendering videogame:", videogame);
-
   useEffect(() => {
     dispatch(getDetail(id));
   }, [dispatch, id]);
@@ -19,19 +17,26 @@ function Detail() {
     return <div>Loading...</div>;
   }
 
-  const { name, genres, background_image, platforms, description, released, rating } = videogame;
+  const { name, genres, image, platforms, description, released, rating } = videogame;
 
-  console.log("Background image URL:", background_image);
+  console.log("Rendering videogame:", videogame); // Log the entire videogame object to check for the released property
+  console.log("Background image URL:", image);
 
   const cardStyle = {
-    backgroundImage: `url(${background_image})`,
+    backgroundImage: `url(${image})`,
   };
 
   const renderPlatforms = () => {
+    if (typeof platforms === 'string') {
+      return platforms;
+    }
     return platforms.map(platform => platform.platform.name).join(', ');
   };
 
   const renderGenres = () => {
+    if (typeof genres === 'string') {
+      return genres;
+    }
     return genres.map(genre => genre.name).join(', ');
   };
 
@@ -40,8 +45,8 @@ function Detail() {
       <h2>{name || "No name available"}</h2>
       <p>ID: {id}</p>
       <p>Platforms: {renderPlatforms()}</p>
-      <p>Description: {description.replace(/<[^>]+>/g, '')}</p>
-      <p>Released: {released}</p>
+      <p>Description: {description ? description.replace(/<[^>]+>/g, '') : "No description available"}</p>
+      <p>Released: {released}</p> {/* Ensure this line is correct */}
       <p>Rating: {rating}</p>
       <p>Genres: {renderGenres()}</p>
     </div>

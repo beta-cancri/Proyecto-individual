@@ -1,16 +1,22 @@
+import React from 'react';
+import ClearSearchButton from '../filters/ClearSearchButton';
 import './navbar.styles.css';
 
-function Navbar({handleChange, handleSubmit}) {
+const Navbar = ({ handleChange, handleSubmit, searchString, handleClearSearch }) => {
   return (
-    <div className='search-box'>
-      <form onChange={handleChange}>
-        <input placeholder='Search' type='search'/>
-        <button type = "Submit" onClick={handleSubmit}>
-          Search</button>
+    <div className="navbar">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Search for a videogame..."
+          value={searchString}
+          onChange={handleChange}
+        />
+        <button type="submit">Search</button>
+        {searchString && <ClearSearchButton onClear={handleClearSearch} />}
       </form>
     </div>
   );
-}
+};
 
 export default Navbar;
- 

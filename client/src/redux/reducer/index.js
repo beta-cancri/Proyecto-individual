@@ -11,6 +11,7 @@ const initialState = {
 function rootReducer(state = initialState, action) {
   switch (action.type) {
     case GET_VIDEOGAMES:
+      console.log('GET_VIDEOGAMES payload:', action.payload);
       return {
         ...state,
         allVideogames: action.payload.results || [],
@@ -19,6 +20,7 @@ function rootReducer(state = initialState, action) {
         platforms: action.payload.platforms || [],
       };
     case GET_BY_NAME:
+      console.log('GET_BY_NAME payload:', action.payload);
       if (Array.isArray(action.payload)) {
         return {
           ...state,

@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 const infoCleaner = (array) => {
     return array.map((element) => ({
         id: element.id,
@@ -12,4 +14,11 @@ const infoCleaner = (array) => {
     }));
 };
 
-module.exports = { infoCleaner };
+const infoCleanerGenre = (array) => {
+    return array.map((element) => ({
+        id: uuidv4(), // Generate UUID for each genre
+        name: element.name, // Ensure this is correct as per your API response
+    }));
+};
+
+module.exports = { infoCleaner, infoCleanerGenre };

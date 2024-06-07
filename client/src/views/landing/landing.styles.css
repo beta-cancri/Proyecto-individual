@@ -1,0 +1,37 @@
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('https://example.com/your-background-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    text-align: center;
+  }
+  
+  .landing-container h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+  }
+  
+  .landing-container p {
+    font-size: 1.5em;
+    margin-bottom: 40px;
+  }
+  
+  .enter-button {
+    padding: 10px 20px;
+    font-size: 1.5em;
+    color: white;
+    background-color: #ff4500;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .enter-button:hover {
+    background-color: #ff6347;
+  }
+  

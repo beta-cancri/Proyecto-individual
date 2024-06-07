@@ -42,25 +42,13 @@ export function getVideogames(limit = MAX_ITEMS) {
 export function getByName(name, limit = MAX_ITEMS) {
   return async function (dispatch) {
     try {
-      const fetchPage = async (page) => {
-        const response = await axios.get(`https://api.rawg.io/api/games?search=${encodeURIComponent(name)}&key=${DB_KEY}&page_size=40&page=${page}`);
-        return response.data.results || [];
-      };
-
-      const results = await Promise.all([fetchPage(1), fetchPage(2), fetchPage(3)]);
-      let allResults = [].concat(...results).slice(0, limit);
-
-      // Remove duplicates
-      const uniqueResults = Array.from(new Map(allResults.map(game => [game.id, game])).values());
-
-      // Sort by rating
-      uniqueResults.sort((a, b) => b.rating - a.rating);
-
-      const formattedResults = uniqueResults.map(formatGameInfo);
+      const response = await axios.get(`http://localhost:3001/videogame/?name=${encodeURIComponent(name)}`);
+      const results = response.data || [];
+      console.log('Search results from API and DB:', results);
 
       dispatch({
         type: GET_BY_NAME,
-        payload: formattedResults,
+        payload: results,
       });
     } catch (error) {
       console.error('Error searching the game:', error);
