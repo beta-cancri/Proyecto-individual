@@ -2,12 +2,13 @@ import './create.styles.css';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Create() {
   const [input, setInput] = useState({
     name: "",
     description: "",
-    platforms: "",
+    platforms: [],
     image: "",
     released: "",
     rating: "",
@@ -24,14 +25,15 @@ function Create() {
     genres: "* Required",
   });
 
-  const [genresList, setGenresList] = useState([]);
   const [formValid, setFormValid] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [genresList, setGenresList] = useState([]); // Define genresList state
+
+  const platformsList = useSelector(state => state.platforms);
 
   const history = useHistory();
 
-  
   const fetchGenres = async () => {
     try {
       const response = await axios.get('http://localhost:3001/genre/');
@@ -65,7 +67,7 @@ function Create() {
       errors.description = "Description is required";
     }
 
-    if (!input.platforms) {
+    if (!input.platforms.length) {
       errors.platforms = "Platforms are required";
     }
 
@@ -124,6 +126,25 @@ function Create() {
     });
   }
 
+  function handlePlatformChange(e) {
+    const { options } = e.target;
+    const selectedPlatforms = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        selectedPlatforms.push(options[i].value);
+      }
+    }
+    setInput({
+      ...input,
+      platforms: selectedPlatforms,
+    });
+
+    validate({
+      ...input,
+      platforms: selectedPlatforms,
+    });
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formValid) {
@@ -136,7 +157,7 @@ function Create() {
         const dataToSend = {
           name: input.name,
           description: input.description,
-          platforms: input.platforms.split(',').map(platform => platform.trim()), 
+          platforms: input.platforms, 
           image: input.image,
           released: input.released,
           rating: parseFloat(input.rating), 
@@ -150,7 +171,7 @@ function Create() {
         setInput({
           name: "",
           description: "",
-          platforms: "",
+          platforms: [],
           image: "",
           released: "",
           rating: "",
@@ -186,7 +207,11 @@ function Create() {
 
         <div>
           <label> Platforms </label>
-          <input name="platforms" value={input.platforms} onChange={handleChange} />
+          <select multiple name="platforms" value={input.platforms} onChange={handlePlatformChange}>
+            {platformsList.map((platform, index) => (
+              <option key={index} value={platform}>{platform}</option>
+            ))}
+          </select>
           <span>{error.platforms}</span>
         </div>
 
