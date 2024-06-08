@@ -41,15 +41,34 @@ const createVideogameDB = async (name, description, platforms, image, released, 
 };
 
 const getVideogameById = async (id, source) => {
-    const videogame = source === "api"
-        ? (await axios.get(`${URL}/${id}?key=${DB_KEY}`)).data
-        : await Videogame.findByPk(id, {
-            include: {
-                model: Genre,
-                attributes: ["name"],
-            },
-        });
-    return videogame;
+    try {
+        const videogame = source === "api"
+            ? (await axios.get(`${URL}/${id}?key=${DB_KEY}`)).data
+            : await Videogame.findByPk(id, {
+                include: {
+                    model: Genre,
+                    attributes: ["name"],
+                },
+            });
+
+        if (!videogame) {
+            throw new Error('Videogame not found');
+        }
+
+        return source === "api" ? infoCleaner([videogame])[0] : {
+            id: videogame.id,
+            name: videogame.name,
+            description: videogame.description,
+            platforms: videogame.platforms.join(', '),
+            image: videogame.image || 'https://previews.123rf.com/images/pytyczech/pytyczech2303/pytyczech230300102/199547461-sodio-na-elemento-de-la-tabla-peri%C3%B3dica-con-nombre-s%C3%ADmbolo-n%C3%BAmero-at%C3%B3mico-y-peso-metal-alcalino.jpg',
+            released: videogame.released,
+            rating: videogame.rating,
+            genres: videogame.genres.map(genre => genre.name).join(", ") || "No genres available",
+        };
+    } catch (error) {
+        console.error('Error fetching videogame by ID:', error.message);
+        throw error;
+    }
 };
 
 const getAllVideogames = async () => {

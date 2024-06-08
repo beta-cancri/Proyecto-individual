@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { formatGameInfo } from '../../utils/formatGameInfo';
+import { formatDetailInfo, formatGameInfo } from '../../utils/formatGameInfo';
 
 const URL = 'https://api.rawg.io/api/games';
 const DB_KEY = 'b0af212d619846639e0461611a3010b7';
@@ -59,13 +59,31 @@ export function getByName(name, limit = MAX_ITEMS) {
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      const response = await axios.get(`${URL}/${id}?key=${DB_KEY}`);
-      const formattedGame = formatGameInfo(response.data);
-      console.log('Fetched videogame details:', formattedGame);
-      dispatch({
-        type: GET_DETAIL,
-        payload: formattedGame,
-      });
+      // First, try to fetch the game from the local database
+      let dbResponse;
+      try {
+        dbResponse = await axios.get(`http://localhost:3001/videogame/${id}`);
+      } catch (dbError) {
+        console.error('Error fetching videogame details from DB:', dbError);
+      }
+
+      if (dbResponse && dbResponse.data) {
+        const formattedGame = formatDetailInfo(dbResponse.data);
+        console.log('Fetched videogame details from DB:', formattedGame);
+        dispatch({
+          type: GET_DETAIL,
+          payload: formattedGame,
+        });
+      } else {
+        // If the game is not found in the database, fetch it from the API
+        const apiResponse = await axios.get(`${URL}/${id}?key=${DB_KEY}`);
+        const formattedGame = formatDetailInfo(apiResponse.data);
+        console.log('Fetched videogame details from API:', formattedGame);
+        dispatch({
+          type: GET_DETAIL,
+          payload: formattedGame,
+        });
+      }
     } catch (error) {
       console.error('Error fetching videogame details:', error);
     }
