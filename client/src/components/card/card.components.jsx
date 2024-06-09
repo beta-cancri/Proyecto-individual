@@ -1,19 +1,18 @@
 import { Link } from "react-router-dom";
-import './card.styles.css';
+import styles from './card.module.css';
 
-function Card({ id, name, genres, image, onClick }) {
+function Card({ id, name, genres, image, onClick, style }) {
   console.log("Rendering videogame:", { id, name, genres, image }); 
 
-  const cardStyle = {
-    backgroundImage: `url(${image})`,
-  };
-
   return (
-    <div className='card-container' style={cardStyle} onClick={onClick}>
-      <Link to={`home/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-        <h2>{name || "No name available"}</h2>
-        <p>{genres || "No genres available"}</p>
-      </Link>
+    <div className={styles.cardContainer} onClick={onClick} style={style}>
+      <img src={image} alt={name} className={styles.cardImage} />
+      <div className={styles.cardContent}>
+        <Link to={`home/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+          <h2>{name || "No name available"}</h2>
+          <p>{genres || "No genres available"}</p>
+        </Link>
+      </div>
     </div>
   );
 }

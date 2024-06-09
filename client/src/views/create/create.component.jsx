@@ -1,8 +1,9 @@
-import './create.styles.css';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getVideogames } from '../../redux/actions';
+import './create.styles.css';
 
 function Create() {
   const [input, setInput] = useState({
@@ -28,11 +29,28 @@ function Create() {
   const [formValid, setFormValid] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(true);
-  const [genresList, setGenresList] = useState([]); // Define genresList state
+  const [genresList, setGenresList] = useState([]);
 
   const platformsList = useSelector(state => state.platforms);
-
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    document.body.classList.add('create-page');
+    return () => {
+      document.body.classList.remove('create-page');
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(getVideogames());
+    fetchGenres();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const isFormValid = Object.values(error).every(err => err === "");
+    setFormValid(isFormValid);
+  }, [error]);
 
   const fetchGenres = async () => {
     try {
@@ -44,15 +62,6 @@ function Create() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchGenres();
-  }, []);
-
-  useEffect(() => {
-    const isFormValid = Object.values(error).every(err => err === "");
-    setFormValid(isFormValid);
-  }, [error]);
 
   const validate = (input) => {
     let errors = {};
@@ -157,14 +166,14 @@ function Create() {
         const dataToSend = {
           name: input.name,
           description: input.description,
-          platforms: input.platforms, 
+          platforms: input.platforms,
           image: input.image,
           released: input.released,
-          rating: parseFloat(input.rating), 
+          rating: parseFloat(input.rating),
           genreIds: genreIds,
         };
 
-        console.log('Data to send:', dataToSend); 
+        console.log('Data to send:', dataToSend);
 
         const response = await axios.post('http://localhost:3001/videogame', dataToSend);
         console.log('Videogame created successfully:', response.data);
@@ -191,59 +200,64 @@ function Create() {
   }
 
   return (
-    <div>
+    <div className="create-container">
+      <div className="button-group">
+        <button className="button button-home" onClick={() => history.push('/home')}></button>
+        <button className="button button-back" onClick={() => history.goBack()}></button>
+      </div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label> Name </label>
-          <input name="name" value={input.name} onChange={handleChange} />
-          <span>{error.name}</span>
+        <div className="form-group">
+          <div className="form-field">
+            <label>Name</label>
+            <input name="name" value={input.name} onChange={handleChange} />
+            <span>{error.name}</span>
+          </div>
+          <div className="form-field">
+            <label>Image</label>
+            <input name="image" value={input.image} onChange={handleChange} />
+            <span>{error.image}</span>
+          </div>
         </div>
-
-        <div>
-          <label> Description </label>
-          <textarea name="description" value={input.description} onChange={handleChange} />
-          <span>{error.description}</span>
+        <div className="form-group">
+          <div className="form-field">
+            <label>Platforms</label>
+            <select multiple name="platforms" value={input.platforms} onChange={handlePlatformChange} size="5">
+              {platformsList.map((platform, index) => (
+                <option key={index} value={platform}>{platform}</option>
+              ))}
+            </select>
+            <span>{error.platforms}</span>
+          </div>
+          <div className="form-field">
+            <label>Genres</label>
+            <select multiple name="genres" value={input.genres} onChange={handleGenreChange} size="5">
+              {genresList.map((genre) => (
+                <option key={genre.id} value={genre.name}>{genre.name}</option>
+              ))}
+            </select>
+            <span>{error.genres}</span>
+          </div>
         </div>
-
-        <div>
-          <label> Platforms </label>
-          <select multiple name="platforms" value={input.platforms} onChange={handlePlatformChange}>
-            {platformsList.map((platform, index) => (
-              <option key={index} value={platform}>{platform}</option>
-            ))}
-          </select>
-          <span>{error.platforms}</span>
+        <div className="form-group">
+          <div className="form-field">
+            <label>Release Date</label>
+            <input type="date" name="released" value={input.released} onChange={handleChange} />
+            <span>{error.released}</span>
+          </div>
+          <div className="form-field">
+            <label>Rating</label>
+            <input type="number" name="rating" value={input.rating} onChange={handleChange} step="0.1" min="0" max="5" />
+            <span>{error.rating}</span>
+          </div>
         </div>
-
-        <div>
-          <label> Image </label>
-          <input name="image" value={input.image} onChange={handleChange} />
-          <span>{error.image}</span>
+        <div className="form-group">
+          <div className="form-field" style={{ flex: 2 }}>
+            <label>Description</label>
+            <textarea name="description" value={input.description} onChange={handleChange} rows="4" />
+            <span>{error.description}</span>
+          </div>
         </div>
-
-        <div>
-          <label> Release Date </label>
-          <input type="date" name="released" value={input.released} onChange={handleChange} />
-          <span>{error.released}</span>
-        </div>
-
-        <div>
-          <label> Rating </label>
-          <input type="number" name="rating" value={input.rating} onChange={handleChange} step="0.1" min="0" max="5" />
-          <span>{error.rating}</span>
-        </div>
-
-        <div>
-          <label> Genres </label>
-          <select multiple name="genres" value={input.genres} onChange={handleGenreChange}>
-            {genresList.map((genre) => (
-              <option key={genre.id} value={genre.name}>{genre.name}</option>
-            ))}
-          </select>
-          <span>{error.genres}</span>
-        </div>
-
-        <button type='submit' disabled={!formValid}>Submit</button>
+        <button type="submit" className="button button-create-game" disabled={!formValid}></button>
         {submitError && <p className="error">{submitError}</p>}
       </form>
     </div>

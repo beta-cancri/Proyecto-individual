@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { getVideogames, getByName, getDetail } from '../../redux/actions';
-import Navbar from '../../components/navbar/navbar.components';
 import GenreFilter from '../../components/filters/genreFilter';
 import PlatformFilter from '../../components/filters/platformFilter';
 import Cards from '../../components/cards/cards.components';
@@ -10,7 +9,7 @@ import Pagination from '../../components/pagination/pagination.component';
 import SourceFilter from '../../components/filters/SourceFilter';
 import SortOptionFilter from '../../components/filters/SortOptionFilter';
 import SortOrderFilter from '../../components/filters/SortOrderFilter';
-import './home.styles.css';
+import styles from './home.module.css';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -28,35 +27,37 @@ const Home = () => {
   const [sortOption, setSortOption] = useState('rating');
   const [sortOrder, setSortOrder] = useState('desc');
 
-  function handleChange(e) {
-    setSearchString(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    dispatch(getByName(searchString));
-  }
-
-  function handleGenreChange(e) {
-    setSelectedGenre(e.target.value);
-  }
-
-  function handlePlatformChange(e) {
-    setSelectedPlatform(e.target.value);
-  }
-
   useEffect(() => {
-    console.log('Dispatching getVideogames action');
     dispatch(getVideogames());
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('Updated allVideogames in Home component:', allVideogames);
-  }, [allVideogames]);
+    document.body.classList.add('home-page');
+    return () => {
+      document.body.classList.remove('home-page');
+    };
+  }, []);
 
-  function handleCardClick(id) {
+  const handleCardClick = (id) => {
     dispatch(getDetail(id));
-  }
+  };
+
+  const handleChange = (e) => {
+    setSearchString(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(getByName(searchString));
+  };
+
+  const handleGenreChange = (e) => {
+    setSelectedGenre(e.target.value);
+  };
+
+  const handlePlatformChange = (e) => {
+    setSelectedPlatform(e.target.value);
+  };
 
   const handleClearSearch = () => {
     setSearchString('');
@@ -65,6 +66,28 @@ const Home = () => {
 
   const handleCreateButtonClick = () => {
     history.push('/create');
+  };
+
+  const handleBackButtonClick = () => {
+    history.goBack();
+  };
+
+  const handleHomeButtonClick = () => {
+    if (history.location.pathname === '/home') {
+      history.go(0);
+    } else {
+      history.push('/home');
+    }
+  };
+
+  const handleAboutButtonClick = () => {
+    history.push('/about');
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
   };
 
   const totalPages = Math.ceil(allVideogames.length / ITEMS_PER_PAGE);
@@ -89,26 +112,52 @@ const Home = () => {
   );
 
   return (
-    <div className="home">
-      <h2 className='home-title'>Home Page</h2>
-      <Navbar
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        searchString={searchString}
-        handleClearSearch={handleClearSearch}
-      />
-      <button className="create-button" onClick={handleCreateButtonClick}>Create New Game</button>
-      <GenreFilter genres={genres} selectedGenre={selectedGenre} onChange={handleGenreChange} />
-      <PlatformFilter platforms={platforms} selectedPlatform={selectedPlatform} onChange={handlePlatformChange} />
-      <SourceFilter sourceFilter={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} />
-      <SortOptionFilter sortOption={sortOption} onChange={(e) => setSortOption(e.target.value)} />
-      <SortOrderFilter sortOrder={sortOrder} onChange={(e) => setSortOrder(e.target.value)} />
+    <div className={styles.home}>
+      <div className={styles.buttonGroup}>
+        <button className="button button-back" onClick={handleBackButtonClick}></button>
+        <button className="button button-home" onClick={handleHomeButtonClick}></button>
+        <button className="button button-create-game" onClick={handleCreateButtonClick}></button>
+        <button className="button button-about" onClick={handleAboutButtonClick}></button>
+      </div>
+      <div className={styles.searchAndFilters}>
+        <div className={styles.filterOptions}>
+          <GenreFilter genres={genres} selectedGenre={selectedGenre} onChange={handleGenreChange} />
+          <PlatformFilter platforms={platforms} selectedPlatform={selectedPlatform} onChange={handlePlatformChange} />
+          <SourceFilter sourceFilter={sourceFilter} onChange={(e) => setSourceFilter(e.target.value)} />
+          <SortOptionFilter sortOption={sortOption} onChange={(e) => setSortOption(e.target.value)} />
+          <SortOrderFilter sortOrder={sortOrder} onChange={(e) => setSortOrder(e.target.value)} />
+        </div>
+        <div className={styles.searchBar}>
+          <input
+            type="text"
+            value={searchString}
+            onChange={handleChange}
+            placeholder="Search for a videogame..."
+            onKeyPress={handleKeyPress}
+          />
+          <button className="button button-search" onClick={handleSubmit}></button>
+          {searchString && <button className="button button-clear-search" onClick={handleClearSearch}></button>}
+        </div>
+      </div>
+      <div className={styles.paginationContainer}>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          nextClassName="button button-next"
+          previousClassName="button button-previous"
+        />
+      </div>
       <Cards allVideogames={paginatedVideogames} onCardClick={handleCardClick} />
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      <div className={styles.paginationContainer}>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          nextClassName="button button-next"
+          previousClassName="button button-previous"
+        />
+      </div>
     </div>
   );
 }

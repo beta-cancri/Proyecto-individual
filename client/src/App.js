@@ -4,6 +4,7 @@ import Home from './views/home/home.component';
 import Create from './views/create/create.component';
 import Detail from './views/detail/detail.component';
 import Landing from './views/landing/landing.component';
+import About from './views/about/about.component'; // Import the About component
 
 import './App.css';
 
@@ -16,6 +17,7 @@ function App() {
           <Route exact path="/home" component={Home} />
           <Route path="/home/:id" component={Detail} />
           <Route path="/create" component={Create} />
+          <Route path="/about" component={About} /> {/* Add the About route */}
         </Switch>
       </div>
     </BrowserRouter>

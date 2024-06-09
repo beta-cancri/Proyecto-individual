@@ -1,0 +1,40 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: white;
+  color: black;
+  margin: 10px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cardContainer:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cardImage {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.cardContent {
+  padding: 15px;
+  text-align: center;
+}
+
+.cardContent h2 {
+  margin: 10px 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.cardContent p {
+  margin: 5px 0;
+  color: #666;
+}

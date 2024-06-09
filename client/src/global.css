@@ -1,0 +1,65 @@
+/* global.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.button {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 80px; /* Set width */
+  height: 80px; /* Set height */
+  padding: 0; /* Remove padding */
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+.button-home {
+  background-image: url('https://i.imgur.com/ByYe8Yp.png');
+}
+
+.button-back {
+  background-image: url('https://i.imgur.com/O7GrzUu.png');
+}
+
+.button-about {
+  background-image: url('https://i.imgur.com/dzEhrcT.png');
+}
+
+.button-create-game {
+  background-image: url('https://i.imgur.com/j4yeZ5x.png');
+}
+
+.button-search {
+  background-image: url('https://i.imgur.com/R9Wn7lm.png');
+}
+
+.button-clear-search {
+  background-image: url('https://i.imgur.com/Dc62EQ9.png');
+}
+
+.button-next {
+  background-image: url('https://i.imgur.com/y1bbkVP.png');
+}
+
+.button-previous {
+  background-image: url('https://i.imgur.com/IPeVRvj.png');
+}

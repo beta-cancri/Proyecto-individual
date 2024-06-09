@@ -1,19 +1,43 @@
 .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-  }
-  
-  .pagination button {
-    margin: 0 10px;
-    padding: 5px 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .pagination button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.pagination button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  width: 80px; /* Set width */
+  height: 80px; /* Set height */
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  padding: 0; /* Remove padding */
+}
+
+.pagination .btn-next {
+  background-image: url('https://i.imgur.com/y1bbkVP.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pagination .btn-previous {
+  background-image: url('https://i.imgur.com/IPeVRvj.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pagination button:hover {
+  transform: scale(1.05);
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
