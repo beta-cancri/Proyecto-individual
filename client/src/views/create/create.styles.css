@@ -90,10 +90,6 @@ button[type="submit"] {
     margin: 20px auto;
 }
 
-button[type="submit"]:hover {
-    background-color: red;
-}
-
 .error {
     color: red;
     font-size: 14px;

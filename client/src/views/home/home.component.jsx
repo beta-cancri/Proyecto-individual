@@ -33,10 +33,19 @@ const Home = () => {
 
   useEffect(() => {
     document.body.classList.add('home-page');
+    document.body.style.background = "url('https://i.imgur.com/ndUkbLA.png') no-repeat center center fixed";
+    document.body.style.backgroundSize = "cover";
+    console.log('Added home-page class to body');
+    console.log('Body classes:', document.body.classList);
+    console.log('Body styles:', window.getComputedStyle(document.body).background);
     return () => {
       document.body.classList.remove('home-page');
+      document.body.style.background = "";
+      document.body.style.backgroundSize = "";
+      console.log('Removed home-page class from body');
     };
   }, []);
+  
 
   const handleCardClick = (id) => {
     dispatch(getDetail(id));
