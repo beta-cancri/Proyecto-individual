@@ -88,6 +88,13 @@ button[type="submit"] {
     width: 80px;
     height: 80px;
     margin: 20px auto;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .error {
