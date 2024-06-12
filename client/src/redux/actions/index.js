@@ -59,7 +59,7 @@ export function getByName(name, limit = MAX_ITEMS) {
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      // First, try to fetch the game from the local database
+      
       let dbResponse;
       try {
         dbResponse = await axios.get(`http://localhost:3001/videogame/${id}`);
@@ -75,7 +75,7 @@ export function getDetail(id) {
           payload: formattedGame,
         });
       } else {
-        // If the game is not found in the database, fetch it from the API
+        
         const apiResponse = await axios.get(`${URL}/${id}?key=${DB_KEY}`);
         const formattedGame = formatDetailInfo(apiResponse.data);
         console.log('Fetched videogame details from API:', formattedGame);

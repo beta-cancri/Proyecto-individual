@@ -6,7 +6,7 @@ const ClearSearchButton = ({ onClear }) => {
 
   const handleClick = () => {
     onClear();
-    history.push('/home'); // Ensure it refreshes the Home component
+    history.push('/home');
   };
 
   return (

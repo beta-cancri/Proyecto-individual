@@ -16,8 +16,8 @@ const infoCleaner = (array) => {
 
 const infoCleanerGenre = (array) => {
     return array.map((element) => ({
-        id: uuidv4(), // Generate UUID for each genre
-        name: element.name, // Ensure this is correct as per your API response
+        id: uuidv4(),
+        name: element.name,
     }));
 };
 

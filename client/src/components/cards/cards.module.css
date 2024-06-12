@@ -1,7 +1,7 @@
 .cardList {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Three columns layout */
-  grid-gap: 20px; /* Space between the cards */
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
   width: 90vw;
   margin: 0 auto;
 }

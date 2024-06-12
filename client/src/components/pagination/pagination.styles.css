@@ -10,12 +10,12 @@
   background-color: transparent;
   border: none;
   color: white;
-  width: 80px; /* Set width */
-  height: 80px; /* Set height */
+  width: 80px; 
+  height: 80px; 
   cursor: pointer;
   border-radius: 8px;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  padding: 0; /* Remove padding */
+  padding: 0; 
 }
 
 .pagination .btn-next {

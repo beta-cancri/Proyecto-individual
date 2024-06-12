@@ -1,11 +1,9 @@
-/* detail.styles.css */
-
 body.detail-page {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: none; /* Ensure no background here, it will be set on .detail-container */
+  background: none; 
 }
 
 .detail-container {
