@@ -2,7 +2,7 @@ import axios from 'axios';
 import { formatDetailInfo, formatGameInfo } from '../../utils/formatGameInfo';
 
 const URL = 'https://api.rawg.io/api/games';
-const DB_KEY = 'b0af212d619846639e0461611a3010b7';
+const DB_KEY = process.env.REACT_APP_DB_KEY;
 
 export const GET_VIDEOGAMES = 'GET_VIDEOGAMES';
 export const GET_BY_NAME = 'GET_BY_NAME';
@@ -59,7 +59,7 @@ export function getByName(name, limit = MAX_ITEMS) {
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      
+
       let dbResponse;
       try {
         dbResponse = await axios.get(`http://localhost:3001/videogame/${id}`);
@@ -75,7 +75,7 @@ export function getDetail(id) {
           payload: formattedGame,
         });
       } else {
-        
+
         const apiResponse = await axios.get(`${URL}/${id}?key=${DB_KEY}`);
         const formattedGame = formatDetailInfo(apiResponse.data);
         console.log('Fetched videogame details from API:', formattedGame);
